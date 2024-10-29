@@ -138,15 +138,15 @@ def main(page: ft.Page):
         cv2.destroyAllWindows()
         # fim de função
 
-    # evento do botão
+    # ANCHOR: evento do botão
     def button_clicked(e):
         if opcoes.value == "Capturar imagem":
-            # REVIEW: resolver problema da captura não pegar o id_usuário
             id_usuario = ft.TextField(label="Informe um número para identificar o usuário:", width=400)
             page.add(
                 ft.Row([ft.Text()]),
                 ft.Row([id_usuario, ft.ElevatedButton(text="Inserir ID")], alignment=ft.MainAxisAlignment.CENTER)
             )
+            # REVIEW: resolver problema da captura não pegar o id_usuário
             captura(largura, altura, id_usuario.value)
         elif opcoes.value == "Treinar sistema":
             treinamento()
@@ -155,7 +155,7 @@ def main(page: ft.Page):
 
         page.update()
 
-    # propriedades da página
+    # ANCHOR: propriedades da página
     page.title = "Reconhecimento facial"
     page.scroll = "adaptive"
     page.theme_mode = ft.ThemeMode.LIGHT
@@ -164,7 +164,7 @@ def main(page: ft.Page):
     largura = 220
     altura = 220
 
-    # opções do usuário
+    # ANCHOR: opções do usuário
     opcoes = ft.Dropdown(
         width=400,
         options=[
@@ -174,7 +174,7 @@ def main(page: ft.Page):
         ],
     )
 
-    # página
+    # ANCHOR: página
     page.add(
         ft.Row([ft.Text("Sistema de Reconhecimento Facial", size=40, weight="bold")], alignment=ft.MainAxisAlignment.CENTER),
         ft.Row([opcoes], alignment=ft.MainAxisAlignment.CENTER),
@@ -184,5 +184,5 @@ def main(page: ft.Page):
     # atualiza página
     page.update()
 
-# executa janela
+# ANCHOR: executa janela
 ft.app(main)
