@@ -6,7 +6,7 @@ import flet as ft
 
 def main(page: ft.Page):
     # ANCHOR: função captura
-    def captura(largura, altura):
+    def captura(largura, altura, id_usuario):
         # classificadores
         classificador = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
         classificador_olho = cv2.CascadeClassifier('haarcascade_eye.xml')
@@ -17,10 +17,6 @@ def main(page: ft.Page):
         # número de amostras por usuário
         amostra = 1
         numero_amostras = 25
-
-        # recebe o id e o nome do usuário
-        id = input('Digite o ID do usuário: ')
-        nome = input('Informe o nome do usuário: ')
 
         # mensagem indicando as capturas
         print('Capturando as faces...')
@@ -48,8 +44,8 @@ def main(page: ft.Page):
                         if np.average(imagem_cinza) > 110:
                             while amostra <= numero_amostras:
                                 imagem_face = cv2.resize(imagem_cinza[y:y + a, x:x + l], (largura, altura))
-                                cv2.imwrite(f'fotos/pessoa.{str(id)}.{str(amostra)}.{nome}.jpg', imagem_face)
-                                print(f'[foto] {str(amostra)} de {nome} capturada com sucesso]')
+                                cv2.imwrite(f'fotos/pessoa.{str(id_usuario)}.{str(amostra)}.jpg', imagem_face)
+                                print(f'[foto] {str(amostra)} de {id_usuario} capturada com sucesso]')
                                 amostra += 1
 
             cv2.imshow('Detectar faces', imagem)
@@ -144,7 +140,12 @@ def main(page: ft.Page):
 
     def button_clicked(e):
         if opcoes.value == "Capturar imagem":
-            captura(largura, altura)
+            id_usuario = ft.TextField(label="Informe um número para identificar o usuário:", width=400)
+            page.add(
+                ft.Row([ft.Text()]),
+                ft.Row([id_usuario, ft.ElevatedButton(text="Inserir ID")], alignment=ft.MainAxisAlignment.CENTER)
+            )
+            captura(largura, altura, id_usuario.value)
         elif opcoes.value == "Treinar sistema":
             treinamento()
         else:
@@ -159,9 +160,8 @@ def main(page: ft.Page):
     largura = 220
     altura = 220
 
-    botao = ft.ElevatedButton(text="Executar", on_click=button_clicked)
     opcoes = ft.Dropdown(
-        width=300,
+        width=400,
         options=[
             ft.dropdown.Option("Capturar imagem"),
             ft.dropdown.Option("Treinar sistema"),
@@ -170,45 +170,11 @@ def main(page: ft.Page):
     )
 
     page.add(
-        ft.Row(
-            [ft.Text("Sistema de Reconhecimento Facial", size=40, weight="bold")],
-            alignment=ft.MainAxisAlignment.CENTER
-        ),
+        ft.Row([ft.Text("Sistema de Reconhecimento Facial", size=40, weight="bold")], alignment=ft.MainAxisAlignment.CENTER),
         ft.Row([opcoes], alignment=ft.MainAxisAlignment.CENTER),
-        ft.Row([botao], alignment=ft.MainAxisAlignment.CENTER)
+        ft.Row([ft.ElevatedButton(text="Executar", on_click=button_clicked)], alignment=ft.MainAxisAlignment.CENTER)
     )
 
     page.update()
 
 ft.app(main)
-
-# ANCHOR: programa principal
-# if __name__ == '__main__':
-#     # define o tamanho da camera
-#     largura = 220
-#     altura = 220
-
-#     while True:
-#         # opções
-#         print(f'\n{'-'*20} RECONHECIMENTO FACIAL {'-'*20}\n')
-#         print('Escolha uma opção:\n')
-#         print('1 - Capturar imagem.')
-#         print('2 - Fazer reconhecimento facial.')
-#         print('3 - Encerrar programa.\n')
-
-#         # opção do usuário
-#         opcao = input('Opção escolhida: ')
-
-#         if opcao == '1':
-#             captura(largura, altura)
-#             continue
-#         elif opcao == '2':
-#             treinamento()
-#             reconhecedor_eigenfaces(largura, altura)
-#             continue
-#         elif opcao == '3':
-#             print('Programa encerrado.')
-#             break
-#         else:
-#             print('Opção inválida.')
-#             continue
