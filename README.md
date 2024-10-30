@@ -1,6 +1,6 @@
-# Sistema de Reconhecimento Facial da CPBSB6
+# Sistema de Reconhecimento Facial (Graphic Edition)
 
-Este é um sistema de Reconhecimento Facial por IA desenvolvido exclusivamente para apresentação no stand do SENAI DF na Campus Party Brasília, ocorrida no ano de 2024.
+Este é o mesmo sistema de Reconhecimento Facial por IA desenvolvido exclusivamente para apresentação no stand do SENAI DF na Campus Party Brasília, ocorrida no ano de 2024, só que adicionada a Interface Gráfica.
 
 O objetivo da apresentação do sistema é exibir uma amostra do que será produzido no Curso de Desenvolvedor de IA. O curso, que possui um total de 400 horas de duração, fará sua estréia no SENAI DF no ano de 2024, e este será um dos vários sistemas que serão desenvolvidos pelos alunos neste curso.
 

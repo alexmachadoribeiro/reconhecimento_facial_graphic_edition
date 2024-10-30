@@ -3,7 +3,7 @@ import cv2
 import os
 import numpy as np
 import flet as ft
-import pygame
+# import pygame
 
 def main(page: ft.Page):
     # ANCHOR: função captura
