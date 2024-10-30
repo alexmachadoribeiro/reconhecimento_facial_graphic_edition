@@ -3,6 +3,7 @@ import cv2
 import os
 import numpy as np
 import flet as ft
+import pygame
 
 def main(page: ft.Page):
     # ANCHOR: função captura
@@ -51,11 +52,11 @@ def main(page: ft.Page):
             cv2.imshow('Detectar faces', imagem)
             cv2.waitKey(1)
 
-            # encerra o loop caso o número de fotos do usuário tenha chegado a 25
+            # encerra o loop caso o número de fotos do usuário tenha chegado a 25 ou clicar no fechar janela ou apertar q
             if (amostra >= numero_amostras + 1):
                 print('Faces capturadas com sucesso.')
                 break
-            elif cv2.waitKey(1) == ord('q'):
+            elif cv2.waitKey(1) == ord('q') or cv2.getWindowProperty('Detectar faces', cv2.WND_PROP_AUTOSIZE) == -1:
                 print('Programa encerrado.')
                 break
 
@@ -72,8 +73,8 @@ def main(page: ft.Page):
 
         for caminho_imagem in caminhos:
             imagem_face = cv2.cvtColor(cv2.imread(caminho_imagem), cv2.COLOR_BGR2GRAY)
-            id = int(os.path.split(caminho_imagem)[-1].split('.')[1])
-            ids.append(id)
+            id_usuario = int(os.path.split(caminho_imagem)[-1].split('.')[1])
+            ids.append(id_usuario)
             faces.append(imagem_face)
 
         # retorno da função
@@ -105,6 +106,7 @@ def main(page: ft.Page):
         # fim de função
 
     # ANCHOR: função de reconhecimento facial
+    # TODO: fazer o programa executar áudio ao reconhecer pessoas
     def reconhecedor_eigenfaces(largura, altura):
         # detecta as faces
         detector_face = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
@@ -125,12 +127,21 @@ def main(page: ft.Page):
             for (x, y, l, a) in faces_detectadas:
                 imagem_face = cv2.resize(imagem_cinza[y:y + a, x:x + l], (largura, altura))
                 cv2.rectangle(imagem, (x, y), (x + l, y + a), (0, 0, 255), 2)
-                id, confianca = reconhecedor.predict(imagem_face)
-                cv2.putText(imagem, str(id),(x,y + (a + 30)), fonte, 2, (0, 0, 255))
+                id_usuario, confianca = reconhecedor.predict(imagem_face)
+                cv2.putText(imagem, str(id_usuario),(x,y + (a + 30)), fonte, 2, (0, 0, 255))
 
-            # para o reconhecimento ao apertar q
+            # reconhecedor de faces
             cv2.imshow('Reconhecer faces', imagem)
-            if cv2.waitKey(1) == ord('q'):
+
+            # FIXME: executa o áudio, mas o programa interrompe durante a execução do áudio
+            # pygame.mixer.init()
+            # pygame.init()
+            # pygame.mixer.music.load('Bird.mp3')
+            # pygame.mixer_music.play()
+            # pygame.event.wait()
+
+            # para o reconhecimento ao apertar q ou clicar no fechar janela
+            if cv2.waitKey(1) == ord('q') or cv2.getWindowProperty('Reconhecer faces', cv2.WND_PROP_AUTOSIZE) == -1:
                 break
 
         # encerra o programa
