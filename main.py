@@ -41,7 +41,7 @@ def main(page: ft.Page):
                     cv2.rectangle(regiao, (ox, oy), (ox + ol, oy + oa), (0, 255, 0), 2)
 
                 # salva as imagens em um arquivo do sistema
-                if np.average(imagem_cinza) > 110 and amostra <= n_amostras:
+                if np.average(imagem_cinza) > 110 and amostra <= numero_amostras:
                     imagem_face = cv2.resize(imagem_cinza[y:y + a, x:x + l], (largura, altura))
                     cv2.imwrite(f"fotos/pessoa.{str(id)}.{str(amostra)}.jpg", imagem_face)
                     print(f"[foto] {str(amostra)} capturada com sucesso.")
