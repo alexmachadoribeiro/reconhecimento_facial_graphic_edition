@@ -40,14 +40,12 @@ def main(page: ft.Page):
                 for (ox, oy, ol, oa) in olhos_detectados:
                     cv2.rectangle(regiao, (ox, oy), (ox + ol, oy + oa), (0, 255, 0), 2)
 
-                    # salva as imagens em um arquivo do sistema ao apertar a letra c
-                    if cv2.waitKey(1) & 0xFF == ord('c'):
-                        if np.average(imagem_cinza) > 110:
-                            while amostra <= numero_amostras:
-                                imagem_face = cv2.resize(imagem_cinza[y:y + a, x:x + l], (largura, altura))
-                                cv2.imwrite(f'fotos/pessoa.{str(id_usuario)}.{str(amostra)}.jpg', imagem_face)
-                                print(f'[foto] {str(amostra)} de {id_usuario} capturada com sucesso]')
-                                amostra += 1
+                # salva as imagens em um arquivo do sistema
+                if np.average(imagem_cinza) > 110 and amostra <= n_amostras:
+                    imagem_face = cv2.resize(imagem_cinza[y:y + a, x:x + l], (largura, altura))
+                    cv2.imwrite(f"fotos/pessoa.{str(id)}.{str(amostra)}.jpg", imagem_face)
+                    print(f"[foto] {str(amostra)} capturada com sucesso.")
+                    amostra += 1
 
             cv2.imshow('Detectar faces', imagem)
             cv2.waitKey(1)
